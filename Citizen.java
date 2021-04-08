@@ -41,7 +41,7 @@ public class Citizen {
 	public boolean equals(Object obj) {
 		if (getClass().equals(obj.getClass())) {
 			Citizen temp = (Citizen) obj;
-			return temp.id == this.id;
+			return temp.id.equals(this.id);
 		}
 		return false;
 	}

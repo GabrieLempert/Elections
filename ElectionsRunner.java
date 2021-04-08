@@ -54,17 +54,6 @@ public class ElectionsRunner {
 		e1.addParty(p1);
 		e1.addBallotBox(b1, 1);
 		e1.addBallotBox(b2, 2);
-		e1.addBallotBoxToCitizen(h1);
-		e1.addBallotBoxToCitizen(h2);
-		e1.addBallotBoxToCitizen(h3);
-		e1.addBallotBoxToCitizen(h4);
-		e1.addBallotBoxToCitizen(h5);
-		e1.addBallotBoxToCitizen(c1);
-		e1.addBallotBoxToCitizen(c2);
-		e1.addBallotBoxToCitizen(c3);
-		e1.addBallotBoxToCitizen(c4);
-		e1.addBallotBoxToCitizen(c5);
-		e1.addBallotBoxToCitizen(c6);
 		e1.addCitizens(h1);
 		e1.addCitizens(h2);
 		e1.addCitizens(h3);
@@ -76,6 +65,7 @@ public class ElectionsRunner {
 		e1.addCandidate(c4, c4.getPartyHeIsRunningFor());
 		e1.addCandidate(c5, c5.getPartyHeIsRunningFor());
 		e1.addCandidate(c6, c6.getPartyHeIsRunningFor());
+		e1.addBallotBoxToThisElections() 
 		e1.votersToEachBallotBox();
 		Scanner sc = new Scanner(System.in);
 		int choice;
@@ -85,8 +75,8 @@ public class ElectionsRunner {
 			case 1: {
 				System.out.println("You chose to add a ballotbox");
 				System.out.println("Input address:");
-				String address = sc.next();
-				sc.nextLine();
+				String address = sc.nextLine();
+				name+=sc.nextLine();
 				BallotBox b = new BallotBox(address);
 				System.out.println("Choose which ballot you want to add: ");
 				System.out.println("Number 1: Regular ballotbox");
@@ -107,8 +97,8 @@ public class ElectionsRunner {
 
 				System.out.println("You chose to add a citizen");
 				System.out.println("Add your name: ");
-				String name = sc.next();
-				sc.nextLine();
+				String name = sc.nextLine();
+				name+=sc.nextLine();
 				System.out.println("Add your id: ");
 				String id = sc.next();
 				while (id.length() != 9) {
@@ -156,8 +146,8 @@ public class ElectionsRunner {
 			case 3: {
 				System.out.println("You chose to add a party");
 				System.out.println("Your party name: ");
-				String name = sc.next();
-				sc.nextLine();
+				String name = sc.nextLine();
+				name+=sc.nextLine();
 				System.out.println("Choose your political opinion: ");
 				System.out.println("1.RIGHT");
 				System.out.println("2.CENTER");
@@ -191,8 +181,8 @@ public class ElectionsRunner {
 			case 4: {
 				System.out.println("You chose to add a candidate to a party");
 				System.out.println("Add your name: ");
-				String name = sc.next();
-				sc.nextLine();
+				String name = sc.nextLine();
+				name+=sc.nextLine();
 				System.out.println("Add your id: ");
 				String id = sc.next();
 				while (id.length() != 9) {

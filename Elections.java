@@ -281,6 +281,13 @@ public class Elections {
 		}
 
 	}
+	
+        public void addBallotBoxToThisElections() {
+		for (int i = 0; i < citizenCounter; i++) {
+			addBallotBoxToCitizens(voters[i]);
+		}
+	}
+
 
 	public Party[] getParties() {
 		return parties;

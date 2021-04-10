@@ -48,8 +48,16 @@ public class Elections {
 		System.out.println("the array is doubled");
 	}
 
+	public boolean checkAge(Citizen c) {
+		if ((yearOfElection - c.yearOfBirth) < 18 || (yearOfElection - c.yearOfBirth) < 0) {
+			System.out.println("You are not in the age to vote!");
+			return false;
+		}
+		return true;
+	}
+
 	public boolean addCitizens(Citizen c) {
-		if (this.getYearOfElection() - c.yearOfBirth >= 18) {
+		if (checkAge(c) == true) {
 			if (citizenCounter == getVoters().length) {
 				copyAndMultiplyVoters();
 			}
@@ -61,24 +69,27 @@ public class Elections {
 			}
 			if (this.getYearOfElection() - c.yearOfBirth <= 21) {
 				getVoters()[citizenCounter++] = new Soliders(c);
-				System.out.println("You added a citizen that is a soldier");
+				System.out.println("You added a citizen that is a soldier to the elections to the voters list");
 				return true;
 			} else if (c instanceof Candidates) {
 				getVoters()[citizenCounter++] = new Candidates(c);
+				System.out.println("You added a citizen that is a candidate to the elections to the voters list");
 			} else {
 				getVoters()[citizenCounter++] = new Citizen(c);
+				System.out.println("You added a citizen  to the elections to the voters list");
+
 			}
 
 		} else {
 			System.out.println("Error!,you are not at the age to vote");
 		}
 		return false;
-
 	}
 
 	public boolean addParty(Party p) {
 		for (int i = 0; i < getPartyCounter(); i++) {
 			if (p.equals(getParties()[i])) {
+				System.out.println("You can't add a party with the same name");
 				return false;
 			}
 		}
@@ -102,18 +113,17 @@ public class Elections {
 
 	public void results() {
 		boolean checker;
-		int counter=0;
+		int counter = 0;
 		for (int i = 0; i < citizenCounter; i++) {
 			if (voters[i].getChosenParty() != null) {
 				counter++;
 			}
 		}
-			if (counter == citizenCounter) {
-				checker = true;
-			} else {
-				checker = false;
-			}
-
+		if (counter == citizenCounter) {
+			checker = true;
+		} else {
+			checker = false;
+		}
 
 		if (checker == true) {
 			System.out.println("The results are: ");
@@ -172,26 +182,27 @@ public class Elections {
 	}
 
 	public boolean addCandidate(Candidates newCandidate, Party candidateParty) {
-		for (int i = 0; i < citizenCounter; i++) {
-			if (voters[i].equals(newCandidate)) {
-				System.out.println("You can not create this candidate because there is a citizen with the same id");
-				return false;
-			}
-		}
-		for (int i = 0; i < partyCounter; i++) {
-			if (candidateParty.equals(getParties()[i])) {
-				for (int j = 0; j < candidateParty.numOfCandidates; j++) {
-					if (candidateParty.candidates[j].equals(newCandidate)) {
-						System.out.println("You can not add a candidate to two parties");
-						return false;
-					}
+		if (checkAge(newCandidate) == true) {
+			for (int i = 0; i < citizenCounter; i++) {
+				if (newCandidate.equals(voters[i])) {
+					System.out.println("You can not create this candidate because there is a citizen with the same id");
+					return false;
 				}
-				candidateParty.addCandidate(newCandidate);
-				getParties()[i].candidates[newCandidate.hisPlaceInTheParty] = newCandidate;
-				addCitizens(newCandidate);
-				return true;
 			}
-
+			for (int i = 0; i < partyCounter; i++) {
+				if (candidateParty.equals(getParties()[i])) {
+					for (int j = 0; j < candidateParty.numOfCandidates; j++) {
+						if (candidateParty.candidates[j].equals(newCandidate)) {
+							System.out.println("You can not add a candidate to two parties");
+							return false;
+						}
+					}
+					candidateParty.addCandidate(newCandidate);
+					getParties()[i].candidates[newCandidate.hisPlaceInTheParty] = newCandidate;
+					addCitizens(newCandidate);
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -224,35 +235,35 @@ public class Elections {
 		}
 	}
 
-	public void addBallotBox(BallotBox b, int choice) {
+	public boolean addBallotBox(BallotBox b, int choice) {
+		for (int i = 0; i < ballotBoxCounter; i++) {
+			if (ballotBoxes[i].equals(b)) {
+				System.out.println("there is a ballotbox in this address");
+				return false;
+			}
+		}
 		if (getBallotBoxCounter() == getBallotBoxes().length) {
 			copyAndMultiplyBallotBox();
 		}
 		switch (choice) {
 		case 1:
 			getBallotBoxes()[ballotBoxCounter++] = new BallotBox(b);
-			System.out.println("You added a normal ballot");
 			break;
 		case 2: {
 			getBallotBoxes()[ballotBoxCounter++] = new BallotBoxForCovid(b);
-			System.out.println("You added a Covid ballot");
 			break;
 		}
 		case 3: {
+
 			getBallotBoxes()[ballotBoxCounter++] = new BallotBoxForSoliders(b);
-			System.out.println("You added a Soldier ballot");
-
 			break;
 		}
 
-		default:
-			System.out.println("you didn't choose any option, goodbye!");
-
-			break;
 		}
+		return true;
 	}
 
-	public void addBallotBoxToCitizen(Citizen voter) {
+	public void addBallotBoxToCitizens(Citizen voter) {
 
 		if (this.yearOfElection - voter.yearOfBirth <= 21 && voter.isQuarentied == false) {
 			while (voter.ballotBox == null) {
@@ -281,13 +292,12 @@ public class Elections {
 		}
 
 	}
-	
-        public void addBallotBoxToThisElections() {
+
+	public void addBallotBoxToThisElections() {
 		for (int i = 0; i < citizenCounter; i++) {
 			addBallotBoxToCitizens(voters[i]);
 		}
 	}
-
 
 	public Party[] getParties() {
 		return parties;
@@ -311,6 +321,16 @@ public class Elections {
 			System.out.println(parties[i]);
 		}
 
+	}
+
+	public void electionsCleaner() {
+		for (int i = 0; i < ballotBoxCounter; i++) {
+			ballotBoxes[i].votesCounter = 0;
+		}
+
+		for (int i = 0; i < partyCounter; i++) {
+			parties[i].numOfVoters = 0;
+		}
 	}
 
 }

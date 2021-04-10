@@ -77,9 +77,11 @@ public class BallotBox {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (getClass().equals(obj.getClass())) {
+		if (obj instanceof BallotBox) {
 			BallotBox temp = (BallotBox) obj;
-			return temp.serialNumber == serialNumber;
+			if (temp.serialNumber == this.serialNumber || temp.address.equals(address) == true) {
+				return true;
+			}
 		}
 		return false;
 	}

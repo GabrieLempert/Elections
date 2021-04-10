@@ -37,9 +37,10 @@ public class Citizen {
 		this.isDressed = copyCitizen.isDressed;
 	}
 
+
 	@Override
 	public boolean equals(Object obj) {
-		if (getClass().equals(obj.getClass())) {
+		if (obj instanceof Citizen) {
 			Citizen temp = (Citizen) obj;
 			return temp.id.equals(this.id);
 		}

@@ -62,15 +62,26 @@ public class Party {
 	@Override
 	public String toString() {
 		if (numOfVoters != 0) {
-			return name + ": " + "\nThe political opinion of the party is: " + PoliticalOpinion + "\nEstablished in:\n"
-					+ dateOfEstablishment + "\nNumber of candidates is:\n " + numOfCandidates
-					+ "\nThe number of votes:\n " + numOfVoters;
+			StringBuffer sb = new StringBuffer(name + ": " + "\nThe political opinion of the party is: "
+					+ PoliticalOpinion + "\nEstablished in:\n" + dateOfEstablishment + "\nNumber of candidates is:\n "
+					+ numOfCandidates + "\nThe number of votes:\n" + numOfVoters);
+			for (int i = 0; i < numOfCandidates; i++) {
+				sb.append("\n" + candidates[i]);
 
+			}
+			return sb.toString();
 		} else {
-			return name + ": " + "\nThe political opinion of the party is: " + PoliticalOpinion + "\nEstablished in:\n"
-					+ dateOfEstablishment + "\nNumber of candidates is:\n" + numOfCandidates;
+			StringBuffer sb = new StringBuffer(
+					name + ": " + "\nThe political opinion of the party is: " + PoliticalOpinion + "\nEstablished in:\n"
+							+ dateOfEstablishment + "\nNumber of candidates is:\n" + numOfCandidates);
+			for (int i = 0; i < numOfCandidates; i++) {
 
+				sb.append("\n" + candidates[i]);
+
+			}
+			return sb.toString();
 		}
+
 	}
 
 }

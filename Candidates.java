@@ -27,8 +27,8 @@ public class Candidates extends Citizen {
 	@Override
 	public String toString() {
 		if (this.partyHeIsRunningFor != null) {
-		return super.toString() + "\nhis political opinion is:\n " + getPartyHeIsRunningFor().PoliticalOpinion
-				+ "His place in the party is:\n " + hisPlaceInTheParty;
+			return super.toString() + "\nhis political opinion is:\n " + getPartyHeIsRunningFor().PoliticalOpinion
+					+ "\nHis place in the party is:\n " + (hisPlaceInTheParty + 1);
 		} else {
 			return super.toString() + "\nHe is a Candidate";
 		}

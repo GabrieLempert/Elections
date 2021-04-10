@@ -106,15 +106,44 @@ public class ElectionsRunner {
 
 	// idChecker(for user input);
 	public static void checkId(String id) {
-		while (id.length() != 9) {
-			if (id.length() < 9) {
-				System.out.println("You didn't enter enough numbers you miss -" + (9 - id.length()) + "numbers");
-			} else {
-				System.out.println("You entered to much numbers " + (id.length()));
+		boolean checkId = true;
+		int counter = 0;
+		for (int i = 0; i < id.length(); i++) {
+			if (id.charAt(i) >= '0' && id.charAt(i) <= '9') {
+				counter++;
 			}
-			System.out.println("Enter again: ");
-			id = sc.next();
 		}
+		if (counter != 9) {
+			checkId = false;
+		}
+
+		while (id.length() != 9 || checkId == false) {
+			if (checkId == false) {
+				counter = 0;
+				for (int i = 0; i < id.length(); i++) {
+					if (id.charAt(i) >= '0' && id.charAt(i) <= '9') {
+						counter++;
+					}
+				}
+				if (counter == 9) {
+					checkId = true;
+				} else {
+					System.out.println("You only can have digits in your id");
+					System.out.println("Enter again: ");
+					id = sc.next();
+				}
+			} else if (id.length() < 9) {
+				System.out.println("You didn't enter enough numbers you miss -" + (9 - id.length()) + "numbers");
+				System.out.println("Enter again: ");
+				id = sc.next();
+			} else if (id.length() > 9) {
+				System.out.println("You entered to much numbers " + (id.length()));
+				System.out.println("Enter again: ");
+				id = sc.next();
+
+			}
+		}
+
 	}
 
 	public static void printMenu() {

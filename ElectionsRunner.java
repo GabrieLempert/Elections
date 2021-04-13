@@ -1,150 +1,9 @@
-package Elections;
+package id_206215311_id_207497561;
 
 import java.util.Scanner;
 
-import Elections.Party.PoliticalOpinion;
-
 public class ElectionsRunner {
 	static Scanner sc = new Scanner(System.in);
-
-	// addPartyCase
-	public static Party addPartyCase() {
-		System.out.println("Your party name: ");
-		String name = sc.nextLine();
-		name += sc.nextLine();
-		System.out.println("Choose your political opinion: ");
-		System.out.println("1.RIGHT");
-		System.out.println("2.CENTER");
-		System.out.println("3.LEFT");
-		PoliticalOpinion temp = null;
-		int key = sc.nextInt();
-		while (key > 3 || key < 1) {
-			System.out.println("There is no such option Enter again between 1-3: ");
-			key = sc.nextInt();
-		}
-		switch (key) {
-		case 1:
-			temp = PoliticalOpinion.RIGHT;
-			break;
-		case 2:
-			temp = PoliticalOpinion.CENTER;
-			break;
-		case 3:
-			temp = PoliticalOpinion.LEFT;
-			break;
-
-		default:
-			System.out.println("There is no such option choose again: ");
-			key = sc.nextInt();
-			break;
-		}
-		Party newParty = new Party(name, temp);
-		return newParty;
-
-	}
-
-	// addBallotBoxCase
-	public static int Choice() {
-		System.out.println("Choose which ballot you want to add: ");
-		System.out.println("Number 1: Regular ballotbox");
-		System.out.println("Number 2: Covid ballotbox");
-		System.out.println("Number 3: Soldiers ballotbox");
-		System.out.println("Enter your choice must be between 1-3: ");
-		int choice = sc.nextInt();
-		while (choice > 3 || choice < 1) {
-			System.out.println("choose again number between 1-3: ");
-			choice = sc.nextInt();
-		}
-		return choice;
-	}
-
-	public static BallotBox addBallotBoxCase() {
-		System.out.println("Input address:");
-		String address = sc.nextLine();
-		address += sc.nextLine();
-		BallotBox b = new BallotBox(address);
-		return b;
-	}
-
-	// addCitizenCase-2
-	public static Citizen addCitizenCase() {
-		System.out.println("Add your name: ");
-		String name = sc.nextLine();
-		name += sc.nextLine();
-		System.out.println("Add your id: ");
-		String id = sc.next();
-		checkId(id);
-		sc.nextLine();
-		System.out.println("Add if you are ill with corona: ");
-		boolean isQuarineted = sc.nextBoolean();
-		System.out.println("Add you year of birth: ");
-		int yearOfBirth = sc.nextInt();
-		Citizen newCitizen = new Citizen(name, id, isQuarineted, yearOfBirth);
-		if (isQuarineted == true) {
-			System.out.println("If you are quarinted you have to be dressed right-Do you have a protective outfit?: ");
-			System.out.println("Choose '1' if you have, choose '2' if you don't: ");
-			int temp = sc.nextInt();
-			boolean isDressed;
-			while (temp > 2 || temp < 1) {
-				System.out.println("wrong option choose again: ");
-				temp = sc.nextInt();
-			}
-			switch (temp) {
-			case 1:
-				isDressed = true;
-				newCitizen.setDressed(isDressed);
-				break;
-			case 2:
-				isDressed = false;
-				newCitizen.setDressed(isDressed);
-				break;
-			}
-		}
-		return newCitizen;
-
-	}
-
-	// idChecker(for user input);
-	public static void checkId(String id) {
-		boolean checkId = true;
-		int counter = 0;
-		for (int i = 0; i < id.length(); i++) {
-			if (id.charAt(i) >= '0' && id.charAt(i) <= '9') {
-				counter++;
-			}
-		}
-		if (counter != 9) {
-			checkId = false;
-		}
-
-		while (id.length() != 9 || checkId == false) {
-			if (checkId == false) {
-				counter = 0;
-				for (int i = 0; i < id.length(); i++) {
-					if (id.charAt(i) >= '0' && id.charAt(i) <= '9') {
-						counter++;
-					}
-				}
-				if (counter == 9) {
-					checkId = true;
-				} else {
-					System.out.println("You only can have digits in your id");
-					System.out.println("Enter again: ");
-					id = sc.next();
-				}
-			} else if (id.length() < 9) {
-				System.out.println("You didn't enter enough numbers you miss -" + (9 - id.length()) + "numbers");
-				System.out.println("Enter again: ");
-				id = sc.next();
-			} else if (id.length() > 9) {
-				System.out.println("You entered to much numbers " + (id.length()));
-				System.out.println("Enter again: ");
-				id = sc.next();
-
-			}
-		}
-
-	}
 
 	public static void printMenu() {
 		System.out.println("Choose between the options: ");
@@ -158,11 +17,13 @@ public class ElectionsRunner {
 		System.out.println("8.start the elections");
 		System.out.println("9.show election results");
 		System.out.println("10.exit the programm");
+		System.out.println("11.start new elections");
 		System.out.println("Enter your choice: ");
 
 	}
 
 	public static void main(String[] args) {
+		ElectionsSave e = new ElectionsSave();
 		// Elections
 		System.out.println("Add the election year: ");
 		int electionYear = sc.nextInt();
@@ -177,209 +38,127 @@ public class ElectionsRunner {
 			electionMonth = sc.nextInt();
 		}
 		Elections e1 = new Elections(electionYear, electionMonth);
-		// BallotBoxes
-		BallotBox b1 = new BallotBox("Kings Landing");
-		BallotBoxForCovid b2 = new BallotBoxForCovid("Sesame Street");
-
-		// HardCoded parties
-		Party p1 = new Party("Banana", PoliticalOpinion.RIGHT);
-		Party p2 = new Party("Apple", PoliticalOpinion.LEFT);
-		Party p3 = new Party("Ananans", PoliticalOpinion.CENTER);
-
-		// Candidates
-
-		Candidates c1 = new Candidates("Ganz", "000000009", false, 1981, p1);
-		Candidates c2 = new Candidates("Yehuda Levi", "000000001", false, 1984, p1);
-		Candidates c3 = new Candidates("Gabi", "000000002", false, 1981, p2);
-		Candidates c4 = new Candidates("Shiran", "000000003", false, 1995, p2);
-		Candidates c5 = new Candidates("Yael", "000000004", false, 1983, p3);
-		Candidates c6 = new Candidates("Elkoubi", "000000005", false, 1987, p3);
-		// Citizens
-		Citizen h1 = new Citizen("Bar", "123456789", true, 1990);
-		h1.setDressed(true);
-		Citizen h2 = new Citizen("Galya", "123456788", false, 1990);
-		Citizen h3 = new Citizen("Batman", "123456787", false, 1990);
-		Citizen h4 = new Citizen("Superman", "123456786", false, 1990);
-		Citizen h5 = new Citizen("BugsBunny", "123456785", false, 1990);
-		// HardCodded addition to elections;
-		e1.addParty(p3);
-		e1.addParty(p2);
-		e1.addParty(p1);
-		e1.addBallotBox(b1, 1);
-		e1.addBallotBox(b2, 2);
-		e1.addCitizens(h1);
-		e1.addCitizens(h2);
-		e1.addCitizens(h3);
-		e1.addCitizens(h4);
-		e1.addCitizens(h5);
-		e1.addCandidate(c1, c1.getPartyHeIsRunningFor());
-		e1.addCandidate(c2, c2.getPartyHeIsRunningFor());
-		e1.addCandidate(c3, c3.getPartyHeIsRunningFor());
-		e1.addCandidate(c4, c4.getPartyHeIsRunningFor());
-		e1.addCandidate(c5, c5.getPartyHeIsRunningFor());
-		e1.addCandidate(c6, c6.getPartyHeIsRunningFor());
-		e1.addBallotBoxToThisElections();
-		e1.votersToEachBallotBox();
+		e.addElections(e1);
+		e.addHardCoded();
 		int choice;
 		do {
 			printMenu();
 			switch (choice = sc.nextInt()) {
 			case 1: {
 				System.out.println("You chose to add a ballotbox");
-				BallotBox b = addBallotBoxCase();
-				int choice1 = Choice();
-				boolean addBallotBox = e1.addBallotBox(b, choice1);
-				while (addBallotBox == false) {
-					b = addBallotBoxCase();
-					choice1 = Choice();
-					addBallotBox = e1.addBallotBox(b, choice1);
-				}
-				if (addBallotBox == true) {
-					if (b instanceof BallotBoxForSoliders) {
-						System.out.println("You added a ballotbox for soldiers");
-					} else if (b instanceof BallotBoxForCovid) {
-						System.out.println("You added a ballotbox for covid");
-					} else if (!(b instanceof BallotBoxForCovid) && !(b instanceof BallotBoxForSoliders)) {
-						System.out.println("You added a noraml ballotbox");
-
+				BallotBox b = e.addBallotBoxCase();
+				int choice1 = e.Choice();
+				for (int i = 0; i < e.numberOfElections; i++) {
+					boolean addBallotBox = e.electionSaver[i].addBallotBox(b, choice1);
+					while (addBallotBox == false) {
+						b = e.addBallotBoxCase();
+						choice1 = e.Choice();
+						addBallotBox = e.electionSaver[i].addBallotBox(b, choice1);
 					}
-
 				}
 				break;
 
 			}
 			case 2: {
 				System.out.println("You chose to add a citizen");
-				Citizen newCitizen = addCitizenCase();
-				boolean addCitizen = e1.addCitizens(newCitizen);
-				while (addCitizen == false) {
-					if (e1.checkAge(newCitizen) == false) {
-						System.out.println("You are not in the age to vote");
-						addCitizen = true;
-					} else {
-						newCitizen = addCitizenCase();
-						addCitizen = e1.addCitizens(newCitizen);
-					}
+				Citizen newCitizen = e.addCitizenCase();
+				for (int i = 0; i < e.numberOfElections; i++) {
+					if (e.electionSaver[i].equals(e1)) {
+						boolean addCitizen = e.electionSaver[i].addCitizens(newCitizen);
+						while (addCitizen == false) {
+							if (e.electionSaver[i].checkAge(newCitizen) == false) {
+								System.out.println("You are not in the age to vote");
+								addCitizen = true;
+							} else {
+								newCitizen = e.addCitizenCase();
+								addCitizen = e1.addCitizens(newCitizen);
+							}
 
-				}
-				if (addCitizen == true && e1.checkAge(newCitizen) == true) {
-					e1.addBallotBoxToCitizens(newCitizen);
-					e1.votersToEachBallotBox();
+						}
+						if (addCitizen == true && e1.checkAge(newCitizen) == true) {
+							e.electionSaver[i].addBallotBoxToCitizens(newCitizen);
+							e.electionSaver[i].votersToEachBallotBox();
+						}
+
+					}
 				}
 				break;
 
 			}
 			case 3: {
 				System.out.println("You chose to add a party");
-				Party newParty = addPartyCase();
-				boolean addParty = e1.addParty(newParty);
-				while (addParty == false) {
-					newParty = addPartyCase();
-					addParty = e1.addParty(newParty);
-				}
-				if (addParty == true) {
-					System.out.println("You added a new party");
+				Party newParty = e.addPartyCase();
+				for (int i = 0; i < e.numberOfElections; i++) {
+					boolean addParty = e.electionSaver[i].addParty(newParty);
+					while (addParty == false) {
+						newParty = e.addPartyCase();
+						addParty = e.electionSaver[i].addParty(newParty);
+					}
+					if (addParty == true) {
+						System.out.println("You added a new party");
+					}
+
 				}
 				break;
 			}
 			case 4: {
-				System.out.println("You chose to add a candidate to a party");
-				System.out.println("Add your name: ");
-				String name = sc.nextLine();
-				name += sc.nextLine();
-				System.out.println("Add your id: ");
-				String id = sc.next();
-				checkId(id);
-				sc.nextLine();
-				System.out.println("Add if you are ill with corona:(true\false)");
-				boolean isQuarineted = sc.nextBoolean();
-				if (isQuarineted == true) {
-					System.out.println("If you are quarinted you have to be dressed right");
-
-				}
-				System.out.println("Add your year of birth: ");
-				int yearOfBirth = sc.nextInt();
-				e1.showPartiesForElection();
-				System.out.println("Choose party number: ");
-				int candidatePartyNumber = sc.nextInt();
-				while (candidatePartyNumber > e1.getPartyCounter() || candidatePartyNumber < 0) {
-					System.out.println("There is no such option choose again please: ");
-					candidatePartyNumber = sc.nextInt();
-				}
-				Candidates newCandidate = new Candidates(name, id, isQuarineted, yearOfBirth,
-						e1.getParties()[candidatePartyNumber - 1]);
-				if (isQuarineted == true) {
-					newCandidate.setDressed(true);
-				}
-				boolean addCandidate = e1.addCandidate(newCandidate, newCandidate.getPartyHeIsRunningFor());
-				while (addCandidate == false) {
-					if (e1.checkAge(newCandidate)) {
-						addCandidate = false;
+				for (int i = 0; i < e.numberOfElections; i++) {
+					if (e.electionSaver[i].equals(e1)) {
+						Candidates newCandidate = e.addCandidateCase(e1);
+						boolean addCandidate = e.electionSaver[i].addCandidate(newCandidate,
+								newCandidate.getPartyHeIsRunningFor());
+						if (addCandidate == true && e.electionSaver[i].checkAge(newCandidate) == true) {
+							e.electionSaver[i].addBallotBoxToCitizens(newCandidate);
+							System.out.println("You added a candidate");
+							System.out.println("his place in the party is: " + (newCandidate.hisPlaceInTheParty + 1));
+							e.electionSaver[i].votersToEachBallotBox();
+						}
 					}
-					System.out.println("Please Enter id again: ");
-					id = sc.next();
-					checkId(id);
-					sc.nextLine();
-					newCandidate.setId(id);
 				}
-				if (addCandidate == true && e1.checkAge(newCandidate) == true) {
-					e1.addBallotBoxToCitizens(newCandidate);
-					System.out.println("You added a candidate");
-					System.out.println("his place in the party is: " + (newCandidate.hisPlaceInTheParty + 1));
-					e1.votersToEachBallotBox();
-				}
+				break;
 			}
 			case 5: {
-				e1.showBallotBoxes();
+				for (int i = 0; i < e.numberOfElections; i++) {
+					if (e1.equals(e.electionSaver[i])) {
+						e.electionSaver[i].showBallotBoxes();
+					}
+				}
 				break;
 
 			}
 			case 6: {
-				e1.showCitizens();
-				break;
+				for (int i = 0; i < e.numberOfElections; i++) {
+					if (e1.equals(e.electionSaver[i])) {
+						e.electionSaver[i].showCitizens();
 
+					}
+				}
+				break;
 			}
 			case 7: {
-				e1.showParties();
+				for (int i = 0; i < e.numberOfElections; i++) {
+					if (e1.equals(e.electionSaver[i])) {
+
+						e.electionSaver[i].showParties();
+					}
+				}
 				break;
 
 			}
 			case 8: {
-				e1.votersToEachBallotBox();
-				e1.electionsCleaner();
-				for (int i = 0; i < e1.getCitizenCounter(); i++) {
-					System.out.println(e1.getVoters()[i].name + "- id -" + e1.getVoters()[i].id);
-					System.out.println("Do you want to vote?");
-					System.out.println("Choose Yes/No");
-					String temp = sc.next();
-					while ((!temp.equalsIgnoreCase("yes")) && (!temp.equalsIgnoreCase("no"))) {
-						System.out.println("There is no such option choose again YES/NO");
-						temp = sc.next();
-					}
-					if (temp.equalsIgnoreCase("no")) {
-						Party blankParty = new Party("Blank", PoliticalOpinion.CENTER);
-						e1.getVoters()[i].setChosenParty(blankParty);
-						System.out.println("Thank you goodbye!");
-
-					}
-					if (temp.equalsIgnoreCase("yes")) {
-						e1.showPartiesForElection();
-						e1.voteToBallotBox(i);
-						int temp1 = sc.nextInt();
-						while (temp1 > e1.getPartyCounter() || temp1 < 0) {
-							System.out.println("There is no such option choose again: ");
-							temp1 = sc.nextInt();
-						}
-						e1.getVoters()[i].setChosenParty(e1.parrtySelector(temp1));
-						System.out.println("You chose: " + e1.getVoters()[i].getChosenParty().name);
-						System.out.println("Thank you for your vote!");
-
+				for (int i = 0; i < e.numberOfElections; i++) {
+					if (e1.equals(e.electionSaver[i])) {
+						e.electionsConducter(e.electionSaver[i]);
 					}
 				}
 				break;
 			}
 			case 9: {
-				e1.results();
+				for (int i = 0; i < e.numberOfElections; i++) {
+					if (e1.equals(e.electionSaver[i])) {
+						e.electionSaver[i].results();
+					}
+				}
 				break;
 
 			}
@@ -389,10 +168,26 @@ public class ElectionsRunner {
 				break;
 
 			}
-
+			case 11:
+				System.out.println("You chose to add a new elections");
+				System.out.println("Add the election year: ");
+				electionYear = sc.nextInt();
+				while (electionYear < 2021) {
+					System.out.println("You can only add years that start from 2021 and on");
+					electionYear = sc.nextInt();
+				}
+				System.out.println("Add the election month: ");
+				electionMonth = sc.nextInt();
+				while (electionMonth > 12 || electionMonth < 1) {
+					System.out.println("There are only 12 months in a year choose again");
+					electionMonth = sc.nextInt();
+				}
+				e1 = new Elections(electionYear, electionMonth);
+				e.addElections(e1);
+				e.addHardCoded();
+				break;
 			default:
 				System.out.println("Error!invalid option, Choose again");
-				choice = sc.nextInt();
 				break;
 
 			}
